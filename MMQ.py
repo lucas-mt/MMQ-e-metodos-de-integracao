@@ -31,7 +31,8 @@ class MMQ:
         b = ((self.sxy*self.sx)-(self.sy*self.sx2))/((self.sx**2)-(self.n*self.sx2))
         return f'{a}*x {"+" if b >= 0 else "-"} {abs(b)}'
     def graf_lin(self):
-        plt.plot(self.x, self.y)
+        ypnt = [resolva(self.lin(), i) for i in self.x]
+        plt.plot(self.x, ypnt)
         #plt.title(self.lin())
         plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('ano')
         plt.grid(); plt.show()
@@ -40,9 +41,10 @@ class MMQ:
         b = ((self.sylnx*self.slnx)-(self.sy*self.sln2x))/((self.slnx**2)-(self.n*self.sln2x))
         return f'{a}*ln(x) {"+" if b >= 0 else "-"} {abs(b)}'
     def graf_log(self):
-        plt.plot(self.lny, self.y)
+        ypnt = [resolva(self.log(), i) for i in self.x]
+        plt.plot(self.x, ypnt)
         #plt.title(self.log())
-        plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('logaritmo natural do ano')
+        plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('ano')
         plt.grid(); plt.show()
     def exp(self):
         a = ((self.n*self.sxlny) - (self.sx*self.slny))/(self.n*self.sx2-(self.sx**2))
@@ -50,9 +52,10 @@ class MMQ:
         eb = exp(b)
         return f'{eb}*exp({a}*x)'
     def graf_exp(self):
-        plt.plot(self.x, self.lny)
+        ypnt = [resolva(self.exp(), i) for i in self.x]
+        plt.plot(self.x, ypnt)
         #plt.title(self.exp())
-        plt.ylabel('logaritmo natural da concentração de CO2'); plt.xlabel('ano')
+        plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('ano')
         plt.grid(); plt.show()
     def pot(self):
         a = ((self.n*self.slnxlny)-(self.slnx*self.slny))/((self.n*self.sln2x)-(self.slnx**2))
@@ -60,9 +63,10 @@ class MMQ:
         eb = exp(b)
         return f'{eb}*x^{a}'
     def graf_pot(self):
-        plt.plot(self.lnx, self.lny)
+        ypnt = [resolva(self.pot(), i) for i in self.x]
+        plt.plot(self.x, ypnt)
         #plt.title(self.pot())
-        plt.ylabel('logaritmo natural da concentração de CO2'); plt.xlabel('logaritmo natural do ano')
+        plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('ano')
         plt.grid(); plt.show()
     def R2(self, função):
         gx = função()
