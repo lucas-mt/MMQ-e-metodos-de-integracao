@@ -1,55 +1,74 @@
-from math import log, exp
+from math import exp, log
+from funções import *
+import matplotlib.pyplot as plt
 
-def MMQlin(x, y):
-    n = len(x)
-    xy = [x[i]*y[i] for i in range(len(x))]
-    x2 = [i**2 for i in x]
-    sx = sum(x)
-    sy = sum(y)
-    sxy = sum(xy)
-    sx2 = sum(x2)
-    a = ((n*sxy)-(sx*sy))/((n*sx2)-(sx)**2)
-    b = ((sxy*sx)-(sy*sx2))/((sx**2)-(n*sx2))
-    return f'{a}*x {"+" if b >= 0 else "-"} {abs(b)}'
-
-def MMQlog(x, y):
-    n = len(x)
-    sy = sum(y)
-    lnx = [log(i) for i in x]
-    slnx = sum(lnx)
-    ylnx = [y[i]*lnx[i] for i in range(n)]
-    sylnx = sum(ylnx)
-    ln2x = [i**2 for i in lnx]
-    sln2x = sum(ln2x)
-    a = ((n*sylnx)-(slnx*sy))/((n*sln2x)-(slnx)**2)
-    b = ((sylnx*slnx)-(sy*sln2x))/((slnx**2)-(n*sln2x))
-    return f'{a}*ln(x) {"+" if b >= 0 else "-"} {abs(b)}'
-
-def MMQexp(x, y):
-    n = len(x)
-    x2 = [i**2 for i in x]
-    lny = [log(i) for i in y]
-    xlny = [x[i]*lny[i] for i in range(n)]
-    sx = sum(x)
-    sx2 = sum(x2)
-    slny = sum(lny)
-    sxlny = sum(xlny)
-    a = ((n*sxlny)-(sx*slny))/((n*sx2)-(sx)**2)
-    b = ((sxlny*slny)-(slny*sx2))/((sx**2)-(n*sx2))
-    eb = exp(b)
-    return f'{eb}*exp({a}*x)'
-
-def MMQpot(x, y):
-    n = len(x)
-    lnx = [log(i) for i in x]
-    slnx = sum(lnx)
-    lny = [log(i) for i in y]
-    slny = sum(lny)
-    xy = [lnx[i]*lny[i] for i in range(n)]
-    slnxlny = sum(xy)
-    ln2x = [i**2 for i in lnx]
-    sln2x = sum(ln2x)
-    a = ((n*slnxlny)-(slnx*slny))/((n*sln2x)-(slnx**2))
-    b = ((slnx*slnxlny)-(slny*sln2x))/((slnx**2)-n*sln2x)
-    eb = exp(b)
-    return f'{eb}*x^{a}'
+class MMQ:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.n = len(self.x)
+        self.medy = sum(self.y)/len(self.y)
+        self.xy = [self.x[i]*self.y[i] for i in range(len(self.x))]
+        self.x2 = [i**2 for i in self.x]
+        self.sx = sum(self.x)
+        self.sy = sum(self.y)
+        self.sxy = sum(self.xy)
+        self.sx2 = sum(self.x2)
+        self.lnx = [log(i) for i in self.x]
+        self.slnx = sum(self.lnx)
+        self.ylnx = [self.y[i]*self.lnx[i] for i in range(self.n)]
+        self.sylnx = sum(self.ylnx)
+        self.ln2x = [i**2 for i in self.lnx]
+        self.sln2x = sum(self.ln2x)
+        self.lny = [log(i) for i in self.y]
+        self.xlny = [self.x[i]*self.lny[i] for i in range(self.n)]
+        self.slny = sum(self.lny)
+        self.sxlny = sum(self.xlny)
+        self.lnxlny = [self.lnx[i]*self.lny[i] for i in range(self.n)]
+        self.slnxlny = sum(self.lnxlny)
+    def lin(self):
+        a = ((self.n*self.sxy)-(self.sx*self.sy))/((self.n*self.sx2)-(self.sx)**2)
+        b = ((self.sxy*self.sx)-(self.sy*self.sx2))/((self.sx**2)-(self.n*self.sx2))
+        return f'{a}*x {"+" if b >= 0 else "-"} {abs(b)}'
+    def graf_lin(self):
+        plt.plot(self.x, self.y)
+        plt.title(self.lin())
+        plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('ano')
+        plt.grid(); plt.show()
+    def log(self):
+        a = ((self.n*self.sylnx)-(self.slnx*self.sy))/((self.n*self.sln2x)-(self.slnx)**2)
+        b = ((self.sylnx*self.slnx)-(self.sy*self.sln2x))/((self.slnx**2)-(self.n*self.sln2x))
+        return f'{a}*ln(x) {"+" if b >= 0 else "-"} {abs(b)}'
+    def graf_log(self):
+        plt.plot(self.lny, self.y)
+        plt.title(self.log())
+        plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('logaritmo natural do ano')
+        plt.grid(); plt.show()
+    def exp(self):
+        a = ((self.n*self.sxlny)-(self.sx*self.slny))/((self.n*self.sx2)-(self.sx)**2)
+        b = ((self.sxlny*self.slny)-(self.slny*self.sx2))/((self.sx**2)-(self.n*self.sx2))
+        eb = exp(b)
+        return f'{eb}*exp({a}*x)'
+    def graf_exp(self):
+        plt.plot(self.x, self.lny)
+        plt.title(self.exp())
+        plt.ylabel('exponecial da concentração de CO2'); plt.xlabel('ano')
+        plt.grid(); plt.show()
+    def pot(self):
+        a = ((self.n*self.slnxlny)-(self.slnx*self.slny))/((self.n*self.sln2x)-(self.slnx**2))
+        b = ((self.slnx*self.slnxlny)-(self.slny*self.sln2x))/((self.slnx**2)-self.n*self.sln2x)
+        eb = exp(b)
+        return f'{eb}*x^{a}'
+    def graf_pot(self):
+        plt.plot(self.lnx, self.lny)
+        plt.title(self.pot())
+        plt.ylabel('logaritmo natural da concentração de CO2'); plt.xlabel('logaritmo natural do ano')
+        plt.grid(); plt.show()
+    def R2(self, função):
+        gx = função()
+        SQReg = 0
+        SQTot = 0
+        for i in range(self.n):
+            SQReg += ((resolva(gx, self.x[i])-self.medy)**2)
+            SQTot += ((self.y[i]-self.medy)**2)
+        return float(SQReg/SQTot)
