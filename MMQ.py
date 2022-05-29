@@ -32,7 +32,7 @@ class MMQ:
         return f'{a}*x {"+" if b >= 0 else "-"} {abs(b)}'
     def graf_lin(self):
         plt.plot(self.x, self.y)
-        plt.title(self.lin())
+        #plt.title(self.lin())
         plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('ano')
         plt.grid(); plt.show()
     def log(self):
@@ -41,18 +41,18 @@ class MMQ:
         return f'{a}*ln(x) {"+" if b >= 0 else "-"} {abs(b)}'
     def graf_log(self):
         plt.plot(self.lny, self.y)
-        plt.title(self.log())
+        #plt.title(self.log())
         plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('logaritmo natural do ano')
         plt.grid(); plt.show()
     def exp(self):
-        a = ((self.n*self.sxlny)-(self.sx*self.slny))/((self.n*self.sx2)-(self.sx)**2)
-        b = ((self.sxlny*self.slny)-(self.slny*self.sx2))/((self.sx**2)-(self.n*self.sx2))
+        a = ((self.n*self.sxlny) - (self.sx*self.slny))/(self.n*self.sx2-(self.sx**2))
+        b = ((self.sxlny*self.sx) - (self.slny*self.sx2))/((self.sx**2)-self.n*self.sx2)
         eb = exp(b)
         return f'{eb}*exp({a}*x)'
     def graf_exp(self):
         plt.plot(self.x, self.lny)
-        plt.title(self.exp())
-        plt.ylabel('exponecial da concentração de CO2'); plt.xlabel('ano')
+        #plt.title(self.exp())
+        plt.ylabel('logaritmo natural da concentração de CO2'); plt.xlabel('ano')
         plt.grid(); plt.show()
     def pot(self):
         a = ((self.n*self.slnxlny)-(self.slnx*self.slny))/((self.n*self.sln2x)-(self.slnx**2))
@@ -61,7 +61,7 @@ class MMQ:
         return f'{eb}*x^{a}'
     def graf_pot(self):
         plt.plot(self.lnx, self.lny)
-        plt.title(self.pot())
+        #plt.title(self.pot())
         plt.ylabel('logaritmo natural da concentração de CO2'); plt.xlabel('logaritmo natural do ano')
         plt.grid(); plt.show()
     def R2(self, função):

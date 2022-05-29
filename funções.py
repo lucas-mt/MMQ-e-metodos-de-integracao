@@ -6,7 +6,7 @@ def f(função):
     return expand(função)
 
 def resolva(função, num):
-    return f(função).subs(x, num)
+    return float(f(função).subs(x, num))
 
 def lst_x(a, b, n):
     i = a
