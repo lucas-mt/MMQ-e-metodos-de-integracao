@@ -30,42 +30,24 @@ class MMQ:
         a = float(((self.n*self.sxy)-(self.sx*self.sy))/((self.n*self.sx2)-(self.sx)**2))
         b = float(((self.sxy*self.sx)-(self.sy*self.sx2))/((self.sx**2)-(self.n*self.sx2)))
         return f'{a}*x {"+" if b >= 0 else "-"} {abs(b)}'
-    def graf_lin(self):
-        ypnt = [resolva(self.lin(), i) for i in self.x]
-        plt.plot(self.x, ypnt)
-        #plt.title(self.lin())
-        plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('ano')
-        plt.grid(); plt.show()
     def log(self):
         a = float(((self.n*self.sylnx)-(self.slnx*self.sy))/((self.n*self.sln2x)-(self.slnx)**2))
         b = float(((self.sylnx*self.slnx)-(self.sy*self.sln2x))/((self.slnx**2)-(self.n*self.sln2x)))
         return f'{a}*ln(x) {"+" if b >= 0 else "-"} {abs(b)}'
-    def graf_log(self):
-        ypnt = [resolva(self.log(), i) for i in self.x]
-        plt.plot(self.x, ypnt)
-        #plt.title(self.log())
-        plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('ano')
-        plt.grid(); plt.show()
     def exp(self):
         a = float(((self.n*self.sxlny) - (self.sx*self.slny))/(self.n*self.sx2-(self.sx**2)))
         b = float(((self.sxlny*self.sx) - (self.slny*self.sx2))/((self.sx**2)-self.n*self.sx2))
         eb = float(exp(b))
         return f'{eb}*exp({a}*x)'
-    def graf_exp(self):
-        ypnt = [resolva(self.exp(), i) for i in self.x]
-        plt.plot(self.x, ypnt)
-        #plt.title(self.exp())
-        plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('ano')
-        plt.grid(); plt.show()
     def pot(self):
         a = float(((self.n*self.slnxlny)-(self.slnx*self.slny))/((self.n*self.sln2x)-(self.slnx**2)))
         b = float(((self.slnx*self.slnxlny)-(self.slny*self.sln2x))/((self.slnx**2)-self.n*self.sln2x))
         eb = float(exp(b))
         return f'{eb}*x^{a}'
-    def graf_pot(self):
-        ypnt = [resolva(self.pot(), i) for i in self.x]
+    def graf(self, função):
+        ypnt = [resolva(função(), i) for i in self.x]
         plt.plot(self.x, ypnt)
-        #plt.title(self.pot())
+        #plt.title(self.função())
         plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('ano')
         plt.grid(); plt.show()
     def R2(self, função):
