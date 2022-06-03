@@ -23,38 +23,55 @@ class MMQ:
         self.lny = [log(i) for i in self.y]
         self.xlny = [self.x[i]*self.lny[i] for i in range(self.n)]
         self.slny = sum(self.lny)
+        self.medlny = self.slny/self.n
         self.sxlny = sum(self.xlny)
         self.lnxlny = [self.lnx[i]*self.lny[i] for i in range(self.n)]
         self.slnxlny = sum(self.lnxlny)
     def lin(self):
         a = float(((self.n*self.sxy)-(self.sx*self.sy))/((self.n*self.sx2)-(self.sx)**2))
         b = float(((self.sxy*self.sx)-(self.sy*self.sx2))/((self.sx**2)-(self.n*self.sx2)))
-        return f'{a}*x {"+" if b >= 0 else "-"} {abs(b)}'
+        g1 = f'{a}*x {"+" if b >= 0 else "-"} {abs(b)}'
+        SQReg = 0
+        SQTot = 0
+        for i in range(self.n):
+            SQReg += ((resolva(g1, self.x[i])-self.medy)**2)
+            SQTot += ((self.y[i]-self.medy)**2)
+        return g1, float(SQReg/SQTot)
     def log(self):
         a = float(((self.n*self.sylnx)-(self.slnx*self.sy))/((self.n*self.sln2x)-(self.slnx)**2))
         b = float(((self.sylnx*self.slnx)-(self.sy*self.sln2x))/((self.slnx**2)-(self.n*self.sln2x)))
-        return f'{a}*ln(x) {"+" if b >= 0 else "-"} {abs(b)}'
+        g1 = f'{a}*ln(x) {"+" if b >= 0 else "-"} {abs(b)}'
+        SQReg = 0
+        SQTot = 0
+        for i in range(self.n):
+            SQReg += ((resolva(g1, self.x[i])-self.medy)**2)
+            SQTot += ((self.y[i]-self.medy)**2)
+        return g1, float(SQReg/SQTot)
     def exp(self):
         a = float(((self.n*self.sxlny) - (self.sx*self.slny))/(self.n*self.sx2-(self.sx**2)))
         b = float(((self.sxlny*self.sx) - (self.slny*self.sx2))/((self.sx**2)-self.n*self.sx2))
+        g1 = f'{a}*x {"+" if b >= 0 else "-"} {abs(b)}'
+        SQReg = 0
+        SQTot = 0
+        for i in range(self.n):
+            SQReg += ((resolva(g1, self.x[i])-self.medlny)**2)
+            SQTot += ((self.lny[i]-self.medlny)**2)
         eb = float(exp(b))
-        return f'{eb}*exp({a}*x)'
+        return f'{eb}*exp({a}*x)', float(SQReg/SQTot)
     def pot(self):
         a = float(((self.n*self.slnxlny)-(self.slnx*self.slny))/((self.n*self.sln2x)-(self.slnx**2)))
         b = float(((self.slnx*self.slnxlny)-(self.slny*self.sln2x))/((self.slnx**2)-self.n*self.sln2x))
+        g1 = f'{b} + x*{a}'
+        SQReg = 0
+        SQTot = 0
+        for i in range(self.n):
+            SQReg += ((resolva(g1, log(self.x[i]))-self.medlny)**2)
+            SQTot += ((self.lny[i]-self.medlny)**2)
         eb = float(exp(b))
-        return f'{eb}*x^{a}'
+        return f'{eb}*x^{a}', float(SQReg/SQTot)
     def graf(self, função):
-        ypnt = [resolva(função(), i) for i in self.x]
+        ypnt = [resolva(função()[0], i) for i in self.x]
         plt.plot(self.x, ypnt)
         #plt.title(self.função())
         plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('ano')
         plt.grid(); plt.show()
-    def R2(self, função):
-        gx = função()
-        SQReg = 0
-        SQTot = 0
-        for i in range(self.n):
-            SQReg += ((resolva(gx, self.x[i])-self.medy)**2)
-            SQTot += ((self.y[i]-self.medy)**2)
-        return float(SQReg/SQTot)
