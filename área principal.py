@@ -14,4 +14,5 @@ with open('dados.txt', 'r', encoding='utf-8') as arq:
         x.append(float(''.join(xsep))); y.append(float(''.join(ysep)))
         xsep.clear(); ysep.clear()
 
+
 dd = MMQ(x, y)

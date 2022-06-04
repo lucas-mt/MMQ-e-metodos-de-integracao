@@ -8,18 +8,8 @@ def f(função):
 def resolva(função, num):
     return float(f(função).subs(x, num))
 
-def lst_x(a, b, n):
-    i = a
-    h = (b-a)/n
-    pnt_x = []
-    while i <= b:
-        pnt_x.append(i)
-        i += h
-    return pnt_x
-
-def lst_y(a, b, n, função):
-    pnt_y = []
-    lista_x = lst_x(a, b, n)
-    for i in lista_x:
-        pnt_y.append(resolva(função, i))
-    return pnt_y
+def mult(n):
+    ask = int(input(f'partição: '))
+    while ask%n!=0:
+        ask = int(input(f'deve ser um valor múltiplo de {n}: '))
+    return ask
