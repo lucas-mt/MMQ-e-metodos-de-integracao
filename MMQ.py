@@ -75,3 +75,4 @@ class MMQ:
         #plt.title(self.função())
         plt.ylabel('concentração de CO2 em ppm'); plt.xlabel('ano')
         plt.grid(); plt.show()
+        

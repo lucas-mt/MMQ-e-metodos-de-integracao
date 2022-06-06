@@ -13,3 +13,4 @@ def mult(n):
     while ask%n!=0:
         ask = int(input(f'deve ser um valor múltiplo de {n}: '))
     return ask
+    
